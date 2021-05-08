@@ -64,7 +64,7 @@ def main():
         "--compact", "-c", action="store_true", help="do not prettify the xml output"
     )
     args = arg_parser.parse_args()
-    convert(args.input, args.output, pretty=(not args.compact))
+    convert(args.input, args.output, pretty=not args.compact)
 
 
 if __name__ == "__main__":

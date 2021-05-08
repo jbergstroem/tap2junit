@@ -38,7 +38,8 @@ RE_PLAN = re.compile(
 )
 RE_TEST_LINE = re.compile(
     (
-        r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)"
+        r"^\s*(?P<result>(not\s+)?ok|Bail out\!)\s*"
+        r"(?P<id>\d+)?\s*(?P<description>[^#]+)"
         r"?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$"
     ),
     re.IGNORECASE,
@@ -152,6 +153,13 @@ class TAP13(object):
                         )
                         self.__tests_counter += 1
                     t = Test(**t_attrs)
+                    if t.result == "Bail out!":
+                        t.result = "not ok"
+                        # according to TAP13 specs, everything after this is an
+                        # explanation of why testing must be stopped
+                        if not t.diagnostics:
+                            t.diagnostics = t.description
+                        t.description = "Bail out for Test %s" % self.__tests_counter
                     self.tests.append(t)
                     in_test = True
                     continue

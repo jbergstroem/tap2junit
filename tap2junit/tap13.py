@@ -157,8 +157,7 @@ class TAP13(object):
                         t.result = "not ok"
                         # according to TAP13 specs, everything after this is an
                         # explanation of why testing must be stopped
-                        if not t.diagnostics:
-                            t.diagnostics = t.description
+                        t.diagnostics = t.diagnostics or t.description
                         t.description = "Bail out for Test %s" % self.__tests_counter
                     self.tests.append(t)
                     in_test = True

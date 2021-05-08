@@ -176,9 +176,7 @@ class TAP13(object):
                     description="Test %s missing" % (i + 1),
                     comment="DIAG: Test %s not present" % (i + 1),
                 )
-                t.yaml = {}
-                t.yaml["severity"] = "missing"
-                t.yaml["exitcode"] = -1
+                t.yaml = {"severity": "missing", "exitcode": -1}
                 self.tests.append(t)
 
     def parse(self, source):
